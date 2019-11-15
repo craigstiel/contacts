@@ -14843,7 +14843,7 @@ module.exports = (function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(21);
-module.exports = __webpack_require__(107);
+module.exports = __webpack_require__(109);
 
 
 /***/ }),
@@ -14876,9 +14876,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_Management___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_Management__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_History__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_History___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_History__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_auth_Register__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_auth_Register__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_auth_Register___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_auth_Register__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_auth_Login__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_auth_Login__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_auth_Login___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_auth_Login__);
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -14983,10 +14983,10 @@ router.beforeEach(function (to, from, next) {
     next();
 });
 
-__WEBPACK_IMPORTED_MODULE_2_vue___default.a.use(__webpack_require__(100), {
-    auth: __webpack_require__(104),
-    http: __webpack_require__(105),
-    router: __webpack_require__(106)
+__WEBPACK_IMPORTED_MODULE_2_vue___default.a.use(__webpack_require__(102), {
+    auth: __webpack_require__(106),
+    http: __webpack_require__(107),
+    router: __webpack_require__(108)
 });
 
 /**
@@ -91900,6 +91900,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
             if (this.$refs.obs.validate()) {
                 this.add_contact_progress = true;
+                this.progress = true;
                 var data = {
                     name: _this.new_contact.name,
                     company: _this.new_contact.company,
@@ -91912,6 +91913,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     if (response.status === 200) {
                         _this.add_contact_progress = false;
                         _this.dialog = false;
+                        _this.get_contacts();
                         _this.add_dialog = true;
                     }
                 }).catch(function (error) {
@@ -92801,11 +92803,12 @@ if (false) {
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(94)
 /* template */
-var __vue_template__ = null
+var __vue_template__ = __webpack_require__(95)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -92824,19 +92827,204 @@ var Component = normalizeComponent(
 )
 Component.options.__file = "resources/assets/js/components/History.vue"
 
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-564196ad", Component.options)
+  } else {
+    hotAPI.reload("data-v-564196ad", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
 module.exports = Component.exports
 
 
 /***/ }),
 /* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var FileDownload = __webpack_require__(111);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        var _this = this;
+        axios.get('/contacts/get/logs').then(function (response) {
+            _this.logs = response.data.logs;
+            _this.progress = false;
+        });
+    },
+    data: function data() {
+        return {
+            search: '',
+            progress: true,
+            headers: [{ text: 'Contact id', align: 'left', value: 'contact_id' }, { text: 'Contact', align: 'left', value: 'contact' }, { text: 'Updated by', value: 'updated_by' }, { text: 'Changes', value: 'changes' }, { text: 'Acts', value: 'act' }, { text: 'Response', value: 'response' }, { text: 'Updated at', value: 'updated_at' }],
+            logs: []
+        };
+    },
+
+    methods: {
+        get_excel: function get_excel() {
+            axios.get('/contacts/get/logs/excel', {
+                responseType: 'blob' }).then(function (response) {
+                FileDownload(new Blob([response.data]), 'log.xlsx');
+            }).catch(function (error) {
+                console.log("User list export", 'Error exporting user\'s list !', 'error');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c("v-col", { attrs: { md: "1" } }),
+      _vm._v(" "),
+      _c(
+        "v-col",
+        { key: "12", attrs: { cols: "12", md: "10" } },
+        [
+          _vm.progress
+            ? _c("v-progress-circular", {
+                staticStyle: { "margin-left": "45% !important" },
+                attrs: { size: 150, color: "teal darken-2", indeterminate: "" }
+              })
+            : _c(
+                "v-card",
+                { staticClass: "mx-auto mycontent-left" },
+                [
+                  _c(
+                    "v-card-title",
+                    [
+                      _vm._v("\n                Logs\n                "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "append-icon": "search",
+                          label: "Search",
+                          "single-line": "",
+                          "hide-details": ""
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-data-table", {
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.logs,
+                      search: _vm.search
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "top",
+                        fn: function() {
+                          return [
+                            _c(
+                              "v-toolbar",
+                              { attrs: { flat: "", dark: "" } },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "mb-2 ml-3",
+                                    attrs: { color: "teal darken-2", dark: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.get_excel()
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-file-excel" })]
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-564196ad", module.exports)
+  }
+}
+
+/***/ }),
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(95)
+var __vue_script__ = __webpack_require__(97)
 /* template */
-var __vue_template__ = __webpack_require__(96)
+var __vue_template__ = __webpack_require__(98)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -92875,7 +93063,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93006,7 +93194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93238,15 +93426,15 @@ if (false) {
 }
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(98)
+var __vue_script__ = __webpack_require__(100)
 /* template */
-var __vue_template__ = __webpack_require__(99)
+var __vue_template__ = __webpack_require__(101)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -93285,7 +93473,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93377,7 +93565,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -93517,10 +93705,10 @@ if (false) {
 }
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Auth = __webpack_require__(101)();
+var Auth = __webpack_require__(103)();
 
 module.exports = (function () {
 
@@ -93561,11 +93749,11 @@ module.exports = (function () {
 })();
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __utils  = __webpack_require__(102),
-    __token  = __webpack_require__(103),
+var __utils  = __webpack_require__(104),
+    __token  = __webpack_require__(105),
     __cookie = __webpack_require__(19)
 
 module.exports = function () {
@@ -94275,7 +94463,7 @@ module.exports = function () {
 
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports) {
 
 module.exports = (function (){
@@ -94357,7 +94545,7 @@ module.exports = (function (){
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __cookie = __webpack_require__(19);
@@ -94437,7 +94625,7 @@ module.exports = (function () {
 })();
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -94459,7 +94647,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -94525,7 +94713,7 @@ module.exports = {
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -94593,10 +94781,48 @@ module.exports = {
 };
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 110 */,
+/* 111 */
+/***/ (function(module, exports) {
+
+module.exports = function(data, filename, mime, bom) {
+    var blobData = (typeof bom !== 'undefined') ? [bom, data] : [data]
+    var blob = new Blob(blobData, {type: mime || 'application/octet-stream'});
+    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+        // IE workaround for "HTML7007: One or more blob URLs were 
+        // revoked by closing the blob for which they were created. 
+        // These URLs will no longer resolve as the data backing 
+        // the URL has been freed."
+        window.navigator.msSaveBlob(blob, filename);
+    }
+    else {
+        var blobURL = window.URL.createObjectURL(blob);
+        var tempLink = document.createElement('a');
+        tempLink.style.display = 'none';
+        tempLink.href = blobURL;
+        tempLink.setAttribute('download', filename); 
+        
+        // Safari thinks _blank anchor are pop ups. We only want to set _blank
+        // target if the browser does not support the HTML5 download attribute.
+        // This allows you to download files in desktop safari if pop up blocking 
+        // is enabled.
+        if (typeof tempLink.download === 'undefined') {
+            tempLink.setAttribute('target', '_blank');
+        }
+        
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(blobURL);
+    }
+}
+
 
 /***/ })
 /******/ ]);

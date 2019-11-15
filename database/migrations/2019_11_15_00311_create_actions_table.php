@@ -18,6 +18,7 @@ class CreateActionsTable extends Migration
             $table->string('act_type');
             $table->timestamps();
         });
+        Artisan::call('db:seed');
     }
 
     /**

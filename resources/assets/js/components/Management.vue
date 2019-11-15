@@ -208,6 +208,7 @@
                 let _this = this;
                 if (this.$refs.obs.validate()) {
                     this.add_contact_progress = true;
+                    this.progress = true;
                     let data = {
                         name: _this.new_contact.name,
                         company: _this.new_contact.company,
@@ -221,6 +222,7 @@
                             if (response.status === 200) {
                                 _this.add_contact_progress = false;
                                 _this.dialog = false;
+                                _this.get_contacts();
                                 _this.add_dialog = true;
                             }
                         })

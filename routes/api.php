@@ -33,4 +33,6 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('/contacts/add', 'ContactsController@add');
     Route::delete('/contacts/delete/{id}', 'ContactsController@delete');
     Route::put('/contacts/edit/{id}', 'ContactsController@edit');
+    Route::get('/contacts/get/logs', 'ContactsController@get_logs');
+    Route::get('/contacts/get/logs/excel', 'ContactsController@excel');
 });
