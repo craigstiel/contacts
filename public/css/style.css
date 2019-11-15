@@ -1,0 +1,23 @@
+.v-toolbar__content, .v-toolbar__extension {
+    padding: 0 !important;
+}
+
+.theme--dark.v-application {
+    background: #212121 !important;
+}
+
+.v-application .text-uppercase {
+    text-transform: uppercase;
+    margin-left: 20px;
+    margin-top: 25px;
+    padding-bottom: 10px;
+    font-size: 18px;
+}
+
+.v-progress-circular {
+    margin: 1rem !important;
+}
+
+.bottom-50 {
+    bottom: 50px !important;
+}
